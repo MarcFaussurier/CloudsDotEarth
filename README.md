@@ -1,8 +1,10 @@
 How to get started :
 
+0) cd client
+
 1) npm install -g cordova 
 
-2) npm install 
+2) npm install // or yarn
 
 3) cordova run electron 
 

@@ -1,0 +1,8 @@
+client/node-modules
+client/platforms/electron/build
+client/dist
+client/.vscode
+client/package-lock.json
+client/yarn.lock
+server/bin
+server/target

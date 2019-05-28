@@ -1,27 +1,13 @@
-/*
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
-*/
-
 const fs = require('fs');
+
 // Module to control application life, browser window and tray.
 const { app, BrowserWindow } = require('electron');
+
 // Electron settings from .json file.
 const cdvElectronSettings = require('./cdv-electron-settings.json');
+
+// Needed client side javascript files
+const clientJSFiles = ["/cordova.js", "/cordova_plugins.js", "/../../../dist/bundle.js"];
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -37,18 +23,21 @@ function createWindow () {
     } else {
         appIcon = `${__dirname}/img/logo.png`;
     }
-
+    // load needed client javascripts
+    for(let i = 0; i < clientJSFiles.length; i++ ) {
+        clientJSFiles[i] = [clientJSFiles[i], fs.readFileSync(__dirname + clientJSFiles[i])];
+    }
     const browserWindowOpts = Object.assign({}, cdvElectronSettings.browserWindow, { icon: appIcon });
     mainWindow = new BrowserWindow(browserWindowOpts);
-
     mainWindow.loadURL(`https://www.google.com/maps/@45.7555968,4.9035559,6080m/data=!3m1!1e3`);
-
     mainWindow.webContents.on('did-finish-load', function () {
         mainWindow.webContents.send('window-id', mainWindow.id);
-        mainWindow.webContents.executeJavaScript(`
-          console.log("toto");
-        `);
-
+        // run needed client javascripts
+        for(let i = 0; i < clientJSFiles.length; i++ ) {
+            mainWindow.webContents.executeJavaScript(`console.log("Executing: `+clientJSFiles[i][0]+` ");`);
+            mainWindow.webContents.executeJavaScript("eval(`"+clientJSFiles[i][1]+"`)"); 
+        }
+        mainWindow.webContents.executeJavaScript(`console.log("All javascripts executed.");`);
     });
 
     // Open the DevTools.

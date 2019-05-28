@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-serve",
+    "start": "cordova run electron --nobuild",
     "build": "webpack --mode production"
   },
   "keywords": [
@@ -15,16 +15,20 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "cordova-electron": "^1.0.2",
-    "webpack": "^4.32.2"
+    "cordova-electron": "^1.0.2"
   },
   "devDependencies": {
     "cordova-plugin-whitelist": "^1.3.3",
+    "css-loader": "^2.1.1",
     "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.12.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.2",
-    "webpack": "^4.28.4",
-    "webpack-cli": "^3.2.1",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
     "webpack-serve": "^2.0.3"
   },
   "cordova": {

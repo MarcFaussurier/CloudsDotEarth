@@ -1,3 +1,12 @@
+Client uses Cordova with Electron platform (per-platform native codes, nodejs and vanilla js)
+
+Website uses Percy (isomorphic rust)
+
+Databases uses Microsoft SQL Server SP 
+
+Server uses vanilla rust
+_____________
+
 How to get started :
 
 0) cd client

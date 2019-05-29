@@ -1,5 +1,7 @@
+require("./http_server.js");
+
 const fs = require('fs');
-const glob = require("glob")
+const glob = require("glob");
 
 // Module to control application life, browser window and tray.
 const { app, BrowserWindow } = require('electron');
@@ -8,19 +10,14 @@ const { app, BrowserWindow } = require('electron');
 const cdvElectronSettings = require('./cdv-electron-settings.json');
 
 // Needed client side javascript files
-const clientJSFiles = ["/cordova.js", "/../../../www/dist/bundle.js"];
+const clientJSFiles = ["/cordova.js", "/cordova_plugins.js"] 
 
-// read cordova plugins / www files and inject them
-let cordova_plugins = fs.readdirSync(__dirname + "/plugins");
-for(let i = 0; i < cordova_plugins.length; i++) {
-    let files = glob.sync(__dirname + "/plugins/" + cordova_plugins[i] + "/www/**/*.js");
-    for(let y = 0; y < files.length; y++) {
-        clientJSFiles.push(files[y].replace(__dirname, ""));
-    }
-}
+glob.sync(__dirname + "/plugins/**/*.js").forEach(element => {
+    clientJSFiles.push(element.split(__dirname)[1]);
+});
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
+clientJSFiles.push("/../../../www/dist/bundle.js");
+
 let mainWindow;
 
 function createWindow () {
@@ -43,10 +40,16 @@ function createWindow () {
     mainWindow.loadURL(`https://www.google.com/maps/@45.7555968,4.9035559,6080m/data=!3m1!1e3`);
     mainWindow.webContents.on('did-finish-load', function () {
         mainWindow.webContents.send('window-id', mainWindow.id);
+        mainWindow.webContents.executeJavaScript(`var HOME_DIR = window.atob("`+Buffer.from(__dirname).toString('base64')+`");`);
+
         // run needed client javascripts
         for(let i = 0; i < clientJSFiles.length; i++ ) {
             mainWindow.webContents.executeJavaScript(`console.log("Executing: `+clientJSFiles[i][0]+` ");`);
-            mainWindow.webContents.executeJavaScript("eval(`"+clientJSFiles[i][1]+"`)"); 
+            let shouldContinue = true;
+
+            if (shouldContinue) {
+                mainWindow.webContents.executeJavaScript(`eval( window.atob("` + Buffer.from(clientJSFiles[i][1]).toString('base64') + `"));`); 
+            }
         }
         mainWindow.webContents.executeJavaScript(`console.log("AppIcon: `+appIcon+`");`);
         mainWindow.webContents.executeJavaScript(`console.log("All javascripts executed.");`);

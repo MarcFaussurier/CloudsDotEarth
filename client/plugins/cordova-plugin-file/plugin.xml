@@ -50,7 +50,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
     </js-module>
 
     <js-module src="www/FileEntry.js" name="FileEntry">
-        <clobbers target="window.FileEntry" />
+        <clobbers targeloadURLt="window.FileEntry" />
     </js-module>
 
     <js-module src="www/FileError.js" name="FileError">

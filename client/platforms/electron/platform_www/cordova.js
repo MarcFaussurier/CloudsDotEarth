@@ -1364,27 +1364,6 @@ function handlePluginsObject (path, moduleList, finishPluginLoading) {
     }
 }
 
-function removeURLParameter(url, parameter) {
-    //prefer to use l.search if you have a location/link object
-    var urlparts = url.split('?');   
-    if (urlparts.length >= 2) {
-
-        var prefix = encodeURIComponent(parameter) + '=';
-        var pars = urlparts[1].split(/[&;]/g);
-
-        //reverse iteration as may be destructive
-        for (var i = pars.length; i-- > 0;) {    
-            //idiom for string.startsWith
-            if (pars[i].lastIndexOf(prefix, 0) !== -1) {  
-                pars.splice(i, 1);
-            }
-        }
-
-        return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '');
-    }
-    return url;
-}
-
 function findCordovaPath () {
     var path = null;
     var scripts = document.getElementsByTagName('script');
@@ -1396,6 +1375,11 @@ function findCordovaPath () {
             break;
         }
     }
+
+    if (path === null) {
+        path = "http://127.0.0.1:5000";
+    }
+
     return path;
 }
 
@@ -1408,12 +1392,13 @@ exports.load = function (callback) {
         console.log('Could not find cordova.js script tag. Plugin loading may fail.');
         pathPrefix = '';
     }
-    /*injectIfNecessary('cordova/plugin_list', pathPrefix + 'cordova_plugins.js', function () {
-        var moduleList = require('cordova/plugin_list');
-        handlePluginsObject(pathPrefix, moduleList, callback);
-    }, callback);*/
-};
 
+    injectIfNecessary('cordova/plugin_list', pathPrefix + 'cordova_plugins.js', function () {
+        var moduleList = require('cordova/plugin_list');
+        console.log("loading cordova plugins with pathPrefix = " + pathPrefix);
+        handlePluginsObject(pathPrefix, moduleList, callback);
+    }, callback);
+};
 });
 
 // file: src/common/urlutil.js

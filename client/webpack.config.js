@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: './src/index.tsx',
@@ -12,20 +13,12 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [{
-            loader: "style-loader", options: {
-                sourceMap: false
-            }
-        }, {
-            loader: "css-loader", options: {
-                sourceMap: false
-            }
-        }, {
-            loader: "sass-loader", options: {
-                sourceMap: false
-            }
-        }]
-    }
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader", 
+          "sass-loader"
+        ]
+      }
     ]
   },
   resolve: {
@@ -33,6 +26,14 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(path.resolve(__dirname, 'www'), 'dist')
   },
+  plugins: [
+      new MiniCssExtractPlugin({
+          // Options similar to the same options in webpackOptions.output
+          // both options are optional
+          filename: "[name].css",
+          chunkFilename: "[id].css"
+      })
+  ]
 };

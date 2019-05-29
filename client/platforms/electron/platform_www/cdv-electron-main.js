@@ -1,4 +1,5 @@
 const fs = require('fs');
+const glob = require("glob")
 
 // Module to control application life, browser window and tray.
 const { app, BrowserWindow } = require('electron');
@@ -7,13 +8,23 @@ const { app, BrowserWindow } = require('electron');
 const cdvElectronSettings = require('./cdv-electron-settings.json');
 
 // Needed client side javascript files
-const clientJSFiles = ["/cordova.js", "/cordova_plugins.js", "/../../../dist/bundle.js"];
+const clientJSFiles = ["/cordova.js", "/../../../www/dist/bundle.js"];
+
+// read cordova plugins / www files and inject them
+let cordova_plugins = fs.readdirSync(__dirname + "/plugins");
+for(let i = 0; i < cordova_plugins.length; i++) {
+    let files = glob.sync(__dirname + "/plugins/" + cordova_plugins[i] + "/www/**/*.js");
+    for(let y = 0; y < files.length; y++) {
+        clientJSFiles.push(files[y].replace(__dirname, ""));
+    }
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow () {
+  //  console.log(__dirname);
     // Create the browser window.
     let appIcon;
     if (fs.existsSync(`${__dirname}/img/app.png`)) {
@@ -37,6 +48,7 @@ function createWindow () {
             mainWindow.webContents.executeJavaScript(`console.log("Executing: `+clientJSFiles[i][0]+` ");`);
             mainWindow.webContents.executeJavaScript("eval(`"+clientJSFiles[i][1]+"`)"); 
         }
+        mainWindow.webContents.executeJavaScript(`console.log("AppIcon: `+appIcon+`");`);
         mainWindow.webContents.executeJavaScript(`console.log("All javascripts executed.");`);
     });
 

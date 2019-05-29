@@ -2,7 +2,7 @@ Client uses Cordova with Electron platform (per-platform native codes, nodejs an
 
 Website uses Percy (isomorphic rust)
 
-Databases uses Microsoft SQL Server SP 
+Databases uses Microsoft SQL Server with stored procedures instead of 'ORM'  
 
 Server uses vanilla rust
 _____________

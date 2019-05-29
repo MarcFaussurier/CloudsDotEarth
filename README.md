@@ -1,10 +1,10 @@
-Client uses Cordova with Electron platform (per-platform native codes, nodejs and vanilla js) -- 3D maps provided by OpenGlobus (political view) and Google (Satelite 3D cities & landscapes)
+**Client** uses Cordova with Electron platform (per-platform native codes, nodejs and vanilla js) -- 3D maps provided by OpenGlobus (political view) and Google (Satelite 3D cities & landscapes)
 
-Website uses Percy (isomorphic rust)
+**Website** uses Percy (isomorphic rust)
 
-Databases uses Microsoft SQL Server with stored procedures instead of 'ORM'  
+**Databases** uses Microsoft SQL Server with stored procedures instead of 'ORM'  
 
-Server uses vanilla rust
+**Server** uses vanilla rust
 _____________
 
 How to get started :

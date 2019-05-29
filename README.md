@@ -1,4 +1,4 @@
-Client uses Cordova with Electron platform (per-platform native codes, nodejs and vanilla js)
+Client uses Cordova with Electron platform (per-platform native codes, nodejs and vanilla js) -- 3D maps provided by OpenGlobus (political view) and Google (Satelite 3D cities & landscapes)
 
 Website uses Percy (isomorphic rust)
 

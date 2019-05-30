@@ -1,8 +1,16 @@
-client/node_modules
-client/platforms/electron/build
-client/dist
+# client 
 client/.vscode
-client/package-lock.json
-client/yarn.lock
+client/node_modules
+client/plugins
 server/bin
 server/target
+client/package-lock.json
+client/yarn.lock
+client/platforms/electron/build
+client/platforms/electron/www
+client/www/dist
+# server 
+server/bin 
+
+# website
+website/bin

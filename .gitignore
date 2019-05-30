@@ -9,6 +9,7 @@ client/yarn.lock
 client/platforms/electron/build
 client/platforms/electron/www
 client/www/dist
+
 # server 
 server/bin 
 

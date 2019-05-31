@@ -4,7 +4,7 @@ const fs = require('fs');
 const glob = require("glob");
 
 // Module to control application life, browser window and tray.
-const { app, BrowserWindow } = require('electron');
+const { ipcMain, app, BrowserWindow } = require('electron');
 
 // Electron settings from .json file.
 const cdvElectronSettings = require('./cdv-electron-settings.json');
@@ -16,7 +16,15 @@ glob.sync(__dirname + "/plugins/**/*.js").forEach(element => {
     clientJSFiles.push(element.split(__dirname)[1]);
 });
 
-clientJSFiles.push("/../../../www/dist/bundle.js");
+glob.sync(__dirname + "/../../../www/dist/js/*.js").forEach(element => {
+    clientJSFiles.push("/../../../www" + element.split("www")[1]);
+});
+
+const cssFiles = [];
+
+glob.sync(__dirname + "/../../../www/dist/css/*.css").forEach(element => {
+    cssFiles.push(element.split("www")[1]);
+});
 
 let mainWindow;
 
@@ -38,9 +46,11 @@ function createWindow () {
     const browserWindowOpts = Object.assign({}, cdvElectronSettings.browserWindow, { icon: appIcon });
     mainWindow = new BrowserWindow(browserWindowOpts);
     mainWindow.loadURL(`https://www.google.com/maps/@45.7555968,4.9035559,6080m/data=!3m1!1e3`);
+    mainWindow.hide();
     mainWindow.webContents.on('did-finish-load', function () {
         mainWindow.webContents.send('window-id', mainWindow.id);
         mainWindow.webContents.executeJavaScript(`var HOME_DIR = window.atob("`+Buffer.from(__dirname).toString('base64')+`");`);
+        mainWindow.webContents.executeJavaScript(`var CSS_FILES = JSON.parse(window.atob("`+Buffer.from(JSON.stringify(cssFiles)).toString('base64')+`"));`);
 
         // run needed client javascripts
         for(let i = 0; i < clientJSFiles.length; i++ ) {
@@ -53,7 +63,10 @@ function createWindow () {
         }
         mainWindow.webContents.executeJavaScript(`console.log("AppIcon: `+appIcon+`");`);
         mainWindow.webContents.executeJavaScript(`console.log("All javascripts executed.");`);
-    });
+        setTimeout(() => {
+            mainWindow.show();
+        }, 750);
+    }.bind(mainWindow));
 
     // Open the DevTools.
     if (cdvElectronSettings.browserWindow.webPreferences.devTools) {

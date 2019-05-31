@@ -1,5 +1,9 @@
+body {
+    display: none;
+}
+/**/
 h1 {
-    color: aqua !important;
+    color: red !important;
 }
 
 .cde_loader {
@@ -165,4 +169,105 @@ animation-timing-function: linear;
 
 .cm-balloon-cnt2{
     animation-duration: 25s;
+}
+
+.scene-footer-container {
+    display: none;
+}
+
+#settings {
+    display: none;
+}
+
+.app-viewcard-strip {
+    display: none;
+}
+
+#zoom-to-sv {
+    display: none;
+}
+
+#photo-uploader-dialog {
+    display: none;
+}
+
+#treksvideo {
+    display: none;
+}
+
+/*.noprint {
+ // display: none;
+}*/
+
+.watermark {
+    display: none !important;
+}
+
+.widget-pane-toggle-button-container {
+    display: block !important;
+}
+
+.widget-homescreen {
+    display: none !important;
+}
+
+#omnibox {
+    display: none !important;
+}
+
+#gb {
+    display: none;
+}
+
+.section-hotel-carousel {
+    display: none;
+}
+
+
+.section-listbox.section-listbox-space-between.section-listbox-flex-vertical.section-listbox-flex-horizontal {
+    display: none;
+}
+
+.section-info.noprint.section-info-hoverable {
+    display: none;
+}
+
+.section-info.section-info-hoverable {
+    display: none;
+}
+
+.widget-titlecard-labelspotlightcontainer {
+    display: none;
+}
+
+.section-listbox.noprint.section-listbox-horizontally-center-content.section-listbox-vertically-center-content.section-listbox-flex-horizontal { 
+    display: none;
+}
+
+.section-subheader {
+    display: none;
+}
+
+.section-subheader-explanation-bubble {
+    display: none;
+}
+
+.jqnFjrOWMVU__root {
+    display: none;
+}
+
+.section-listbox.noprint.section-listbox-horizontally-center-content.section-listbox-vertically-center-content.section-listbox-flex-horizontal {
+    display: none;
+}
+
+.section-review {
+    display: none;
+}
+
+.section-hero-header-description-container {
+    display: none;
+}
+
+.section-subheader {
+    display: none;
 }

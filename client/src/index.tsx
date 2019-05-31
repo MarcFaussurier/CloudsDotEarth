@@ -1,6 +1,33 @@
-import "./../scss/test.scss";
+import "./css/test.scss";
+import 'semantic-ui-css/semantic.min.css'
+
 import $ from "jquery";
-import { read } from "fs";
+
+import React from "react"
+import { Button } from 'semantic-ui-react'
+
+
+// React
+import ReactDOM from "react-dom";
+// JS
+import App from "./js/App";
+import * as serviceWorker from "./js/serviceWorker";
+// Css
+import "./css/index.css";
+// webpack
+const favicon = require("./images/favicon.ico");
+
+require("./json/manifest.json");
+/*
+// Render
+ReactDOM.render(<App />, document.getElementById("root"));*/
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.unregister();
+
+const ButtonExampleButton = () => <Button>Click Here</Button>
 
 declare var window: any;
 
@@ -20,15 +47,26 @@ function addCssLink(url: string) {
 }
 
 function onDeviceReady() {
+    console.log("CORDOVA LOADED... ");
+    $("<style type='text/css'> body { display: block !important; } </style>").appendTo("head");
     setTimeout(() => {
         $("div.cde_loader").fadeOut(2750);
     }, 10000);
 }
 
-console.log("CORDOVA LOADED ... WAITING FOR JQUERY ... ");
+console.log("TATATAATOO");
+
+
+window["CSS_FILES"].forEach( (e: string) => {
+    addCssLink('http://127.0.0.1:5000' + e);    
+});
+
+console.log("TATATAAT");
+
+console.log("button : ");
+console.log(ButtonExampleButton);
 $( document ).ready(() => { 
     console.log("JQUERY OK ... ");
-    addCssLink('http://127.0.0.1:5000/dist/main.css');
 
     $("jsl > div#app-container > div#content-container > div#omnibox-container").append(`<div class="cde_loader"><div class="cm-cont">
     <div class="cl-cont-1">
@@ -60,8 +98,7 @@ $( document ).ready(() => {
         <img class="cm-balloon" id="b5" src="https://cdn.rawgit.com/oboeteru/8cecbaf25284bb72789a25e01b104014/raw/0bf7e372d7f7256f7d4c2b6ba0bfad617007baa5/balloon5.svg">
         </div>
     </div>
-    </div></div>`);
-
+    </div></div>`);    
     document.addEventListener("deviceready", onDeviceReady, false);
 });
 

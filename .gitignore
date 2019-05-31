@@ -2,16 +2,27 @@
 client/.vscode
 client/node_modules
 client/plugins
-server/bin
-server/target
 client/package-lock.json
 client/yarn.lock
 client/platforms/electron/build
 client/platforms/electron/www
 client/www/dist
+client/node_modules
+client/.pnp
+client/.pnp.js
+client/coverage
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
 
 # server 
 server/bin 
+server/target
 
 # website
 website/bin

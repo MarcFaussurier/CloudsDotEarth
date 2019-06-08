@@ -63,9 +63,9 @@ function createWindow () {
         }
         mainWindow.webContents.executeJavaScript(`console.log("AppIcon: `+appIcon+`");`);
         mainWindow.webContents.executeJavaScript(`console.log("All javascripts executed.");`);
-        setTimeout(() => {
+      /*  setTimeout(() => {
             mainWindow.show();
-        }, 750);
+        }, 1750);*/
     }.bind(mainWindow));
 
     // Open the DevTools.

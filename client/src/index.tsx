@@ -58,7 +58,7 @@ console.log("TATATAATOO");
 
 
 window["CSS_FILES"].forEach( (e: string) => {
-    addCssLink('http://127.0.0.1:5000' + e);    
+    addCssLink('http://127.0.0.1:3000' + e);    
 });
 
 console.log("TATATAAT");

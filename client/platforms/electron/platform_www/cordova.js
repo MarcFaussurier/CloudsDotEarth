@@ -1377,7 +1377,7 @@ function findCordovaPath () {
     }
 
     if (path === null) {
-        path = "http://127.0.0.1:5000";
+        path = "http://127.0.0.1:3000";
     }
 
     return path;

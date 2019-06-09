@@ -1,0 +1,11 @@
+platforms/electron/build
+platforms/electron/build-res
+platforms/electron/www
+platforms/electron/config.xml
+platforms/electron/electron.json
+www/dist
+www/asset-list.js
+node_modules
+package-lock.json
+yarn.lock
+.idea

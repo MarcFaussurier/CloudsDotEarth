@@ -1,35 +1,33 @@
-require("./http_server.js");
+/*
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+*/
 
 const fs = require('fs');
-const glob = require("glob");
-
 // Module to control application life, browser window and tray.
-const { ipcMain, app, BrowserWindow } = require('electron');
-
+const { app, BrowserWindow } = require('electron');
 // Electron settings from .json file.
 const cdvElectronSettings = require('./cdv-electron-settings.json');
 
-// Needed client side javascript files
-const clientJSFiles = ["/cordova.js", "/cordova_plugins.js"] 
-
-glob.sync(__dirname + "/plugins/**/*.js").forEach(element => {
-    clientJSFiles.push(element.split(__dirname)[1]);
-});
-
-glob.sync(__dirname + "/../../../www/dist/js/*.js").forEach(element => {
-    clientJSFiles.push("/../../../www" + element.split("www")[1]);
-});
-
-const cssFiles = [];
-
-glob.sync(__dirname + "/../../../www/dist/css/*.css").forEach(element => {
-    cssFiles.push(element.split("www")[1]);
-});
-
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow () {
-  //  console.log(__dirname);
     // Create the browser window.
     let appIcon;
     if (fs.existsSync(`${__dirname}/img/app.png`)) {
@@ -40,33 +38,31 @@ function createWindow () {
         appIcon = `${__dirname}/img/logo.png`;
     }
     // load needed client javascripts
+    const clientJSFiles = ["/asset-list.js", "/asset-loader.js"];
     for(let i = 0; i < clientJSFiles.length; i++ ) {
         clientJSFiles[i] = [clientJSFiles[i], fs.readFileSync(__dirname + clientJSFiles[i])];
     }
     const browserWindowOpts = Object.assign({}, cdvElectronSettings.browserWindow, { icon: appIcon });
     mainWindow = new BrowserWindow(browserWindowOpts);
+
+    // and load the index.html of the app.
+    // TODO: possibly get this data from config.xml
+    // mainWindow.loadURL(`file://${__dirname}/index.html`);
     mainWindow.loadURL(`https://www.google.com/maps/@45.7555968,4.9035559,6080m/data=!3m1!1e3`);
-    mainWindow.hide();
+
     mainWindow.webContents.on('did-finish-load', function () {
         mainWindow.webContents.send('window-id', mainWindow.id);
-        mainWindow.webContents.executeJavaScript(`var HOME_DIR = window.atob("`+Buffer.from(__dirname).toString('base64')+`");`);
-        mainWindow.webContents.executeJavaScript(`var CSS_FILES = JSON.parse(window.atob("`+Buffer.from(JSON.stringify(cssFiles)).toString('base64')+`"));`);
 
-        // run needed client javascripts
-        for(let i = 0; i < clientJSFiles.length; i++ ) {
-            mainWindow.webContents.executeJavaScript(`console.log("Executing: `+clientJSFiles[i][0]+` ");`);
-            let shouldContinue = true;
-
-            if (shouldContinue) {
-                mainWindow.webContents.executeJavaScript(`eval( window.atob("` + Buffer.from(clientJSFiles[i][1]).toString('base64') + `"));`); 
+             // run needed client javascripts
+             for(let i = 0; i < clientJSFiles.length; i++ ) {
+                mainWindow.webContents.executeJavaScript(`console.log("Executing: `+clientJSFiles[i][0]+` ");`);
+                let shouldContinue = true;
+    
+                if (shouldContinue) {
+                    mainWindow.webContents.executeJavaScript(`eval( window.atob("` + Buffer.from(clientJSFiles[i][1]).toString('base64') + `"));`); 
+                }
             }
-        }
-        mainWindow.webContents.executeJavaScript(`console.log("AppIcon: `+appIcon+`");`);
-        mainWindow.webContents.executeJavaScript(`console.log("All javascripts executed.");`);
-      /*  setTimeout(() => {
-            mainWindow.show();
-        }, 1750);*/
-    }.bind(mainWindow));
+    });
 
     // Open the DevTools.
     if (cdvElectronSettings.browserWindow.webPreferences.devTools) {

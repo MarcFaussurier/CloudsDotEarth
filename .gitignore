@@ -1,16 +1,16 @@
 # client 
-client/.vscode
+.idea
+client/platforms/electron/build
+client/platforms/electron/build-res
+client/platforms/electron/www
+client/platforms/electron/config.xml
+client/platforms/electron/electron.json
+client/www/dist
+client/www/asset-list.js
 client/node_modules
-client/plugins
 client/package-lock.json
 client/yarn.lock
-client/platforms/electron/build
-client/platforms/electron/www
-client/www/dist
-client/node_modules
-client/.pnp
-client/.pnp.js
-client/coverage
+client/.idea
 client/.DS_Store
 client/.env.local
 client/.env.development.local
@@ -19,6 +19,9 @@ client/.env.production.local
 client/npm-debug.log*
 client/yarn-debug.log*
 client/yarn-error.log*
+client/yarn.lock
+client/plugins
+
 
 # server 
 server/bin 

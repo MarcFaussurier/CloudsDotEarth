@@ -1369,17 +1369,12 @@ function findCordovaPath () {
     var scripts = document.getElementsByTagName('script');
     var term = '/cordova.js';
     for (var n = scripts.length - 1; n > -1; n--) {
-        var src = scripts[n].src.substring(scripts[n].src.lastIndexOf('/') + 1).split("?")[0]; 
+        var src = scripts[n].src.replace(/\?.*$/, ''); // Strip any query param (CB-6007).
         if (src.indexOf(term) === (src.length - term.length)) {
             path = src.substring(0, src.length - term.length) + '/';
             break;
         }
     }
-
-    if (path === null) {
-        path = "http://127.0.0.1:3000";
-    }
-
     return path;
 }
 
@@ -1392,13 +1387,12 @@ exports.load = function (callback) {
         console.log('Could not find cordova.js script tag. Plugin loading may fail.');
         pathPrefix = '';
     }
-
     injectIfNecessary('cordova/plugin_list', pathPrefix + 'cordova_plugins.js', function () {
         var moduleList = require('cordova/plugin_list');
-        console.log("loading cordova plugins with pathPrefix = " + pathPrefix);
         handlePluginsObject(pathPrefix, moduleList, callback);
     }, callback);
 };
+
 });
 
 // file: src/common/urlutil.js

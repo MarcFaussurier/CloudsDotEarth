@@ -35,7 +35,7 @@ class SettingJsonParser {
         }
 
         if (config) {
-            this.package.browserWindow.webPreferences.devTools = true//false
+            this.package.browserWindow.webPreferences.devTools = !config.release;
         }
 
         return this;

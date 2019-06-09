@@ -11,10 +11,9 @@ How to get started :
 
 0) cd client
 
-1) npm install -g cordova 
+1) yarn && yarn dev
 
-2) npm install // or yarn
+2) in a new terminal : yarn start-desktop
 
-3) cordova run electron 
 
-You should now see a work-in-progress 3D google map based front end application. 
+Enjoy google map 3D with hot reloading and all modern js stack features (typescript, sass, react, redux ..... @see associated boilerplate => https://github.com/MarcFaussurier/minimalist-client-boilerplate)
